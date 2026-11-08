@@ -9,7 +9,7 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-# Estilização Temática Espacial Avançada (Eliminar fundos brancos)
+# Estilização Temática Espacial Completa (Sem qualquer fundo branco)
 st.markdown("""
     <style>
     /* Fundo Global da Aplicação */
@@ -38,10 +38,20 @@ st.markdown("""
     .block-container {
         background: transparent !important;
         padding-top: 2rem;
-        padding-bottom: 5rem;
+        padding-bottom: 7rem;
     }
     
-    /* Barra de Chat Inferior (remover fundo branco e aplicar vidro cósmico) */
+    /* REMOVER FUNDO BRANCO DA PARTE INFERIOR (RODAPÉ DO CHAT) */
+    [data-testid="stBottom"], footer, .stChatInputContainer {
+        background: transparent !important;
+        background-color: rgba(9, 10, 15, 0) !important;
+    }
+
+    [data-testid="stBottom"] > div {
+        background: transparent !important;
+    }
+
+    /* Caixa de Chat Inferior com Efeito de Vidro Escuro Cósmico */
     [data-testid="stChatInput"] {
         background: rgba(15, 12, 29, 0.9) !important;
         border: 1px solid rgba(168, 85, 247, 0.5) !important;
@@ -52,6 +62,7 @@ st.markdown("""
     
     [data-testid="stChatInput"] textarea {
         color: #ffffff !important;
+        background: transparent !important;
     }
 
     /* Título com Gradiente Estilo Universo/Galáxia */
