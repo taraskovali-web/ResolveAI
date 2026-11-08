@@ -30,36 +30,21 @@ if user_prompt:
         st.write(user_prompt)
         
     with st.chat_message("assistant", avatar="🤖"):
-        # Mensagem de progresso imediata para saberes que a app não está congelada
-        with st.status("🛸 A estabelecer ligação com a central estelar...", expanded=True) as status:
-            response_text = None
-            
-            # Tentativa 1: Modelo principal
-            try:
-                st.write("A contactar o motor principal (`gemini-3.8-flash`)...")
-                response = client.models.generate_content(
-                    model="gemini-3.8-flash",
+        try:
+            # Usar o modelo gemini-1.5-flash (altamente estável e rápido)
+            def generate_stream():
+                response = client.models.generate_content_stream(
+                    model="gemini-1.5-flash",
                     contents=user_prompt,
                 )
-                response_text = response.text
-                status.update(label="✨ Trajetória calculada com sucesso!", state="complete", expanded=False)
-            except Exception as e1:
-                st.write(f"⚠️ Motor principal ocupado. A tentar rota alternativa...")
-                
-                # Tentativa 2: Fallback para garantir que responda sempre
-                try:
-                    response = client.models.generate_content(
-                        model="gemini-2.5-flash",
-                        contents=user_prompt,
-                    )
-                    response_text = response.text
-                    status.update(label="✨ Ligação estabelecida via rota alternativa!", state="complete", expanded=False)
-                except Exception as e2:
-                    status.update(label="❌ Erro na comunicação estelar", state="error", expanded=True)
-                    st.error(f"Os servidores da Google estão com pico de tráfego intenso neste momento. Por favor, tenta novamente em instantes. (Erro: {e1})")
+                for chunk in response:
+                    if chunk.text:
+                        yield chunk.text
             
-            if response_text:
-                st.write(response_text)
+            st.write_stream(generate_stream())
+            
+        except Exception as e:
+            st.error(f"Ocorreu um erro na comunicação estelar: {e}")
 
 # Barra lateral com temática e botão da Stripe
 st.sidebar.markdown("### 🪐 Portal de Tripulante")
