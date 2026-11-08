@@ -9,7 +9,7 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-# Estilização Temática Espacial Completa (Com gradiente de universo nos títulos laterais)
+# Estilização Temática Espacial Completa (Com gradiente de universo na caixa de seleção)
 st.markdown("""
     <style>
     /* Fundo Global da Aplicação */
@@ -76,6 +76,18 @@ st.markdown("""
     
     h2 {
         color: #c084fc !important;
+    }
+
+    /* ESTILIZAÇÃO DA CAIXA DE SELEÇÃO COM FUNDO DE UNIVERSO E TEXTO BRANCO */
+    [data-testid="stSelectbox"] div[data-baseweb="select"] > div {
+        background: linear-gradient(135deg, rgba(124, 58, 237, 0.4) 0%, rgba(79, 70, 229, 0.4) 50%, rgba(6, 182, 212, 0.3) 100%) !important;
+        border: 1px solid rgba(168, 85, 247, 0.6) !important;
+        border-radius: 12px !important;
+        box-shadow: 0 0 15px rgba(139, 92, 246, 0.2);
+    }
+
+    [data-testid="stSelectbox"] span, [data-testid="stSelectbox"] div {
+        color: #ffffff !important;
     }
     
     /* Caixas de Mensagem Estilizadas */
@@ -164,7 +176,4 @@ if user_prompt:
                 pass
 
         if not response_text:
-            response_text = f"[{modo_missao}] Diretiva recebida no Nexus Cósmico: '{user_prompt}'. Sistema operacional a 100%."
-
-        st.write(response_text)
-        st.session_state.messages.append({"role": "assistant", "content": response_text})
+            response
