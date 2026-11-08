@@ -1,5 +1,5 @@
 import streamlit as st
-from google import genai
+import google.generativeai as genai
 
 # Configuração da página
 st.set_page_config(
@@ -19,8 +19,11 @@ else:
     st.error("⚠️ Falta configurar a GEMINI_API_KEY nos Secrets do Streamlit Cloud.")
     st.stop()
 
-# Inicializar o cliente do Google GenAI
-client = genai.Client(api_key=api_key)
+# Configurar o SDK clássico do Gemini
+genai.configure(api_key=api_key)
+
+# Usar o modelo flash padrão e amplamente estável
+model = genai.GenerativeModel('gemini-1.5-flash')
 
 # Caixa de texto padrão do Streamlit
 user_prompt = st.chat_input("Qual é a tua missão ou dúvida hoje? 🛸")
@@ -32,11 +35,8 @@ if user_prompt:
     with st.chat_message("assistant", avatar="🤖"):
         with st.spinner("✨ A calcular trajetória cósmica..."):
             try:
-                # Usar o modelo correto e atualizado sugerido pela Google
-                response = client.models.generate_content(
-                    model="gemini-3.8-flash",
-                    contents=user_prompt,
-                )
+                # Gerar resposta de forma síncrona e rápida
+                response = model.generate_content(user_prompt)
                 st.write(response.text)
             except Exception as e:
                 st.error(f"Ocorreu um erro na comunicação estelar: {e}")
