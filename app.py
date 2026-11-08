@@ -19,7 +19,7 @@ else:
     st.error("⚠️ Falta configurar a GEMINI_API_KEY nos Secrets do Streamlit Cloud.")
     st.stop()
 
-# Inicializar o cliente do Google GenAI moderno
+# Inicializar o cliente do Google GenAI
 client = genai.Client(api_key=api_key)
 
 # Caixa de texto padrão do Streamlit
@@ -30,16 +30,22 @@ if user_prompt:
         st.write(user_prompt)
         
     with st.chat_message("assistant", avatar="🤖"):
-        with st.spinner("✨ A calcular trajetória cósmica..."):
-            try:
-                # Utilizar o modelo exigido pela API da Google
-                response = client.models.generate_content(
-                    model="gemini-3.8-flash",
-                    contents=user_prompt,
-                )
-                st.write(response.text)
-            except Exception as e:
-                st.error(f"Ocorreu um erro na comunicação estelar: {e}")
+        # Usar um placeholder para feedback visual imediato
+        status_placeholder = st.empty()
+        status_placeholder.markdown("✨ *A calcular trajetória cósmica...*")
+        
+        try:
+            # Chamada direta ao modelo oficial gemini-3.8-flash
+            response = client.models.generate_content(
+                model="gemini-3.8-flash",
+                contents=user_prompt,
+            )
+            # Limpar o texto de carregamento e mostrar a resposta
+            status_placeholder.empty()
+            st.write(response.text)
+        except Exception as e:
+            status_placeholder.empty()
+            st.error(f"Ocorreu um erro na comunicação estelar: {e}")
 
 # Barra lateral com temática e botão da Stripe
 st.sidebar.markdown("### 🪐 Portal de Tripulante")
