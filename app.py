@@ -27,9 +27,9 @@ if user_prompt:
     with st.chat_message("assistant"):
         with st.spinner("A pensar..."):
             try:
-                # Gerar resposta usando o modelo Gemini 2.5 Flash
+                # Gerar resposta usando o modelo correto gemini-3.8-flash
                 response = client.models.generate_content(
-                    model="gemini-2.5-flash",
+                    model="gemini-3.8-flash",
                     contents=user_prompt,
                 )
                 st.write(response.text)
