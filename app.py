@@ -1,45 +1,12 @@
 import streamlit as st
 from google import genai
 
-# Configuração da página com tema espacial
+# Configuração da página
 st.set_page_config(
     page_title="Omni-Solver 🚀 Espaço IA", 
     page_icon="🌌", 
     layout="centered"
 )
-
-# Estilo visual personalizado com correção de visibilidade do chat
-st.markdown("""
-    <style>
-    .stApp {
-        background: linear-gradient(135deg, #0b0f19 0%, #111827 50%, #1f1035 100%);
-        color: #f3f4f6;
-    }
-    .stSidebar {
-        background-color: #0f172a;
-    }
-    h1 {
-        color: #38bdf8;
-        font-family: 'Helvetica Neue', sans-serif;
-        text-shadow: 0 0 20px rgba(56, 189, 248, 0.4);
-    }
-    
-    /* CORREÇÃO DEFINITIVA: Visibilidade do texto na caixa de chat */
-    .stChatInput div[data-baseweb="input"] {
-        background-color: #1e293b !important;
-    }
-    .stChatInput textarea {
-        color: #ffffff !important;
-        -webkit-text-fill-color: #ffffff !important;
-        background-color: transparent !important;
-        caret-color: #ffffff !important;
-    }
-    .stChatInput textarea::placeholder {
-        color: #94a3b8 !important;
-        -webkit-text-fill-color: #94a3b8 !important;
-    }
-    </style>
-""", unsafe_allow_html=True)
 
 # Cabeçalho Espacial
 st.title("🚀 Omni-Solver: Central Espacial de IA")
@@ -55,7 +22,7 @@ else:
 # Inicializar o cliente do Google GenAI
 client = genai.Client(api_key=api_key)
 
-# Caixa de texto para o utilizador
+# Caixa de texto padrão do Streamlit (sem truques visuais que bloqueiem o texto)
 user_prompt = st.chat_input("Qual é a tua missão ou dúvida hoje? 🛸")
 
 if user_prompt:
