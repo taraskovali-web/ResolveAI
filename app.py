@@ -98,6 +98,18 @@ st.markdown("""
         transform: translateY(-2px);
     }
 
+    /* Caixa de indicador de ativo customizada com fundo de universo */
+    .activo-box {
+        background: linear-gradient(135deg, rgba(124, 58, 237, 0.4) 0%, rgba(79, 70, 229, 0.4) 50%, rgba(6, 182, 212, 0.3) 100%);
+        border: 1px solid rgba(168, 85, 247, 0.6);
+        border-radius: 12px;
+        padding: 12px;
+        margin-top: 10px;
+        box-shadow: 0 0 15px rgba(139, 92, 246, 0.2);
+        color: #ffffff !important;
+        font-size: 14px;
+    }
+
     /* Caixas de Mensagem Estilizadas */
     [data-testid="stChatMessage"] {
         background: rgba(22, 17, 43, 0.7);
@@ -144,7 +156,13 @@ if st.sidebar.button("🌌 Exploração Cósmica"):
     st.session_state.modo_missao = "🌌 Exploração Cósmica"
 
 modo_missao = st.session_state.modo_missao
-st.sidebar.info(f"Ativo: **{modo_missao}**")
+
+# Substituição do st.info por HTML com fundo do universo e letra branca
+st.sidebar.markdown(f"""
+    <div class="activo-box">
+        Ativo: <b>{modo_missao}</b>
+    </div>
+""", unsafe_allow_html=True)
 
 st.sidebar.markdown("---")
 st.sidebar.markdown("### Portal de Tripulante")
