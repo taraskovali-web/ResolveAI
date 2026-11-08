@@ -9,7 +9,7 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-# Estilização Temática Espacial (Textos a Branco e Roxo Sólido)
+# Estilização Temática Espacial com Título em Gradiente de Galáxia
 st.markdown("""
     <style>
     /* Fundo Temático Espacial */
@@ -30,15 +30,17 @@ st.markdown("""
         border-right: 1px solid rgba(138, 43, 226, 0.2);
     }
     
-    /* Títulos com a cor roxa sólida exata */
+    /* Título com Gradiente Estilo Universo/Galáxia (Roxo -> Rosa Nebulosa -> Azul Estelar -> Ciano) */
     h1 {
-        color: #8b5cf6 !important;
+        background: linear-gradient(90deg, #c084fc 0%, #e879f9 33%, #60a5fa 66%, #22d3ee 100%) !important;
+        -webkit-background-clip: text !important;
+        -webkit-text-fill-color: transparent !important;
         font-weight: 800 !important;
         letter-spacing: 1px;
     }
     
     h2, h3 {
-        color: #a78bfa !important;
+        color: #c084fc !important;
     }
     
     /* Caixas de Mensagem Estilizadas */
