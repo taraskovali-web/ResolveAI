@@ -30,21 +30,21 @@ if user_prompt:
         st.write(user_prompt)
         
     with st.chat_message("assistant", avatar="🤖"):
-        # Usar um placeholder para feedback visual imediato
-        status_placeholder = st.empty()
-        status_placeholder.markdown("✨ *A calcular trajetória cósmica...*")
-        
         try:
-            # Chamada direta ao modelo oficial gemini-3.8-flash
-            response = client.models.generate_content(
-                model="gemini-3.8-flash",
-                contents=user_prompt,
-            )
-            # Limpar o texto de carregamento e mostrar a resposta
-            status_placeholder.empty()
-            st.write(response.text)
+            # Função geradora para streaming em tempo real (resposta instantânea)
+            def generate_stream():
+                response = client.models.generate_content_stream(
+                    model="gemini-3.8-flash",
+                    contents=user_prompt,
+                )
+                for chunk in response:
+                    if chunk.text:
+                        yield chunk.text
+            
+            # O Streamlit escreve a resposta à medida que ela chega da IA
+            st.write_stream(generate_stream())
+            
         except Exception as e:
-            status_placeholder.empty()
             st.error(f"Ocorreu um erro na comunicação estelar: {e}")
 
 # Barra lateral com temática e botão da Stripe
