@@ -22,8 +22,8 @@ else:
 # Configurar o SDK clássico do Gemini
 genai.configure(api_key=api_key)
 
-# Usar o modelo flash padrão e amplamente estável
-model = genai.GenerativeModel('gemini-1.5-flash')
+# Usar o modelo gemini-2.0-flash (atual e estável)
+model = genai.GenerativeModel('gemini-2.0-flash')
 
 # Caixa de texto padrão do Streamlit
 user_prompt = st.chat_input("Qual é a tua missão ou dúvida hoje? 🛸")
@@ -35,7 +35,6 @@ if user_prompt:
     with st.chat_message("assistant", avatar="🤖"):
         with st.spinner("✨ A calcular trajetória cósmica..."):
             try:
-                # Gerar resposta de forma síncrona e rápida
                 response = model.generate_content(user_prompt)
                 st.write(response.text)
             except Exception as e:
