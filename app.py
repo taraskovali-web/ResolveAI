@@ -9,10 +9,10 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-# Estilização Temática Espacial com Título em Gradiente de Galáxia
+# Estilização Temática Espacial Avançada (Eliminar fundos brancos)
 st.markdown("""
     <style>
-    /* Fundo Temático Espacial */
+    /* Fundo Global da Aplicação */
     .stApp {
         background: radial-gradient(circle at 50% 10%, #1a0b2e 0%, #090a0f 60%, #030305 100%);
         color: #ffffff !important;
@@ -30,7 +30,31 @@ st.markdown("""
         border-right: 1px solid rgba(138, 43, 226, 0.2);
     }
     
-    /* Título com Gradiente Estilo Universo/Galáxia (Roxo -> Rosa Nebulosa -> Azul Estelar -> Ciano) */
+    /* Remover blocos brancos do cabeçalho superior e container principal */
+    [data-testid="stHeader"] {
+        background: rgba(0, 0, 0, 0) !important;
+    }
+    
+    .block-container {
+        background: transparent !important;
+        padding-top: 2rem;
+        padding-bottom: 5rem;
+    }
+    
+    /* Barra de Chat Inferior (remover fundo branco e aplicar vidro cósmico) */
+    [data-testid="stChatInput"] {
+        background: rgba(15, 12, 29, 0.9) !important;
+        border: 1px solid rgba(168, 85, 247, 0.5) !important;
+        border-radius: 16px !important;
+        box-shadow: 0 0 20px rgba(139, 92, 246, 0.25);
+        backdrop-filter: blur(12px);
+    }
+    
+    [data-testid="stChatInput"] textarea {
+        color: #ffffff !important;
+    }
+
+    /* Título com Gradiente Estilo Universo/Galáxia */
     h1 {
         background: linear-gradient(90deg, #c084fc 0%, #e879f9 33%, #60a5fa 66%, #22d3ee 100%) !important;
         -webkit-background-clip: text !important;
@@ -52,13 +76,6 @@ st.markdown("""
         backdrop-filter: blur(8px);
         margin-bottom: 12px;
         color: #ffffff !important;
-    }
-    
-    /* Caixa de Entrada Futurista */
-    .stChatInputContainer {
-        border-radius: 16px !important;
-        border: 1px solid rgba(139, 92, 246, 0.5) !important;
-        box-shadow: 0 0 15px rgba(139, 92, 246, 0.2);
     }
     
     /* Botão da Stripe com Brilho Néon */
