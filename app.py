@@ -22,7 +22,7 @@ else:
 # Inicializar o cliente do Google GenAI
 client = genai.Client(api_key=api_key)
 
-# Caixa de texto padrão do Streamlit (sem truques visuais que bloqueiem o texto)
+# Caixa de texto padrão do Streamlit
 user_prompt = st.chat_input("Qual é a tua missão ou dúvida hoje? 🛸")
 
 if user_prompt:
@@ -32,9 +32,9 @@ if user_prompt:
     with st.chat_message("assistant", avatar="🤖"):
         with st.spinner("✨ A calcular trajetória cósmica..."):
             try:
-                # Modelo rápido gemini-2.5-flash
+                # Usar o modelo correto e atualizado sugerido pela Google
                 response = client.models.generate_content(
-                    model="gemini-2.5-flash",
+                    model="gemini-3.8-flash",
                     contents=user_prompt,
                 )
                 st.write(response.text)
