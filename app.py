@@ -8,64 +8,87 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-# 2. Estilização visual exata baseada na tua referência
+# 2. Injeção de CSS para forçar a atmosfera cósmica e a estética roxa
 st.markdown("""
     <style>
-    /* Fundo geral e da barra lateral */
+    /* Fundo geral universo (espaço profundo) */
     .stApp {
-        background-color: #0b0f19;
-        color: #ffffff;
-    }
-    section[data-testid="stSidebar"] {
-        background-color: #111827;
-        border-right: 1px solid #1f2937;
-    }
-    section[data-testid="stSidebar"] h3 {
-        color: #f3f4f6 !important;
-        font-size: 16px !important;
-        margin-bottom: 0px !important;
-    }
-    section[data-testid="stSidebar"] p {
-        color: #9ca3af !important;
+        background: radial-gradient(circle at 50% 20%, #110d29 0%, #05050d 100%) !important;
+        color: #ffffff !important;
     }
     
-    /* Estilo dos botões da barra lateral (Frequências de Raciocínio) */
-    div.stButton > button {
-        background-color: #2e1065 !important;
-        color: #ffffff !important;
-        border: 1px solid #7c3aed !important;
-        border-radius: 8px !important;
-        font-weight: 500;
-        text-align: left !important;
-        transition: all 0.3s ease;
+    /* Barra Lateral Cósmica */
+    section[data-testid="stSidebar"] {
+        background-color: #0a0814 !important;
+        border-right: 1px solid #1e1b4b !important;
     }
-    div.stButton > button:hover {
-        background-color: #3b0764 !important;
-        border-color: #9333ea !important;
+    
+    /* Textos da Barra Lateral */
+    section[data-testid="stSidebar"] h3 {
+        color: #c084fc !important;
+        font-size: 16px !important;
+        font-weight: 700 !important;
+    }
+    section[data-testid="stSidebar"] p, section[data-testid="stSidebar"] span {
+        color: #cbd5e1 !important;
+    }
+    
+    /* Botões da Sidebar (Frequências de Raciocínio) */
+    div[data-testid="stSidebar"] div.stButton > button {
+        background: linear-gradient(135deg, #1e1b4b 0%, #312e81 100%) !important;
+        color: #e0e7ff !important;
+        border: 1px solid #4338ca !important;
+        border-radius: 8px !important;
+        padding: 8px 14px !important;
+        font-weight: 500 !important;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4) !important;
+    }
+    div[data-testid="stSidebar"] div.stButton > button:hover {
+        background: linear-gradient(135deg, #312e81 0%, #4338ca 100%) !important;
+        border-color: #6366f1 !important;
         color: #ffffff !important;
     }
 
-    /* ESTILO DO BOTÃO DO PASSE ESTELAR (Stripe Link Button) */
-    div.stLinkButton > a {
-        background-color: #7c3aed !important;
-        color: #ffffff !important;
-        border: 1px solid #9333ea !important;
+    /* Caixa do Estado Ativo */
+    .caixa-ativo {
+        background: #1e1b4b !important;
+        border: 1px solid #6366f1 !important;
+        padding: 10px 14px !important;
         border-radius: 8px !important;
-        font-weight: 600 !important;
-        text-align: center !important;
-        box-shadow: 0px 4px 12px rgba(124, 58, 237, 0.4);
-        transition: all 0.3s ease;
+        font-size: 13px !important;
+        color: #e0e7ff !important;
+        margin-top: 10px !important;
+        margin-bottom: 20px !important;
     }
-    div.stLinkButton > a:hover {
-        background-color: #6d28d9 !important;
-        border-color: #a855f7 !important;
+
+    /* BOTÃO DO PASSE ESTELAR (ROXO VIBRANTE / STRIPE) */
+    div[data-testid="stSidebar"] div.stLinkButton > a {
+        background: linear-gradient(135deg, #7c3aed 0%, #6d28d9 100%) !important;
         color: #ffffff !important;
+        border: 1px solid #a855f7 !important;
+        border-radius: 8px !important;
+        font-weight: 700 !important;
+        text-align: center !important;
+        box-shadow: 0 4px 15px rgba(124, 58, 237, 0.5) !important;
+    }
+    div[data-testid="stSidebar"] div.stLinkButton > a:hover {
+        background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%) !important;
+        border-color: #c084fc !important;
+        box-shadow: 0 6px 20px rgba(139, 92, 246, 0.7) !important;
+    }
+
+    /* Títulos do Painel Principal em Roxo Cósmico */
+    h1 {
+        color: #c084fc !important;
+        font-weight: 800 !important;
     }
     
-    /* Caixa de chat contrastada e legível */
+    /* Campo de Chat */
     .stChatInput input {
         color: #ffffff !important;
-        background-color: #1a2234 !important;
+        background-color: #0f172a !important;
+        border: 1px solid #334155 !important;
+        border-radius: 12px !important;
     }
     </style>
 """, unsafe_allow_html=True)
@@ -80,7 +103,7 @@ if "messages" not in st.session_state:
 # --- BARRA LATERAL ---
 with st.sidebar:
     st.markdown("### **Controlo da Nave**")
-    st.markdown("<p style='font-size: 13px; margin-bottom: 8px;'>Frequência de Raciocínio Ativa:</p>", unsafe_allow_html=True)
+    st.markdown("<p style='font-size: 13px;'>Frequência de Raciocínio Ativa:</p>", unsafe_allow_html=True)
     
     # Botões de seleção de frequência
     if st.button("✨ Investigação Científica & IA", use_container_width=True):
@@ -92,9 +115,9 @@ with st.sidebar:
     if st.button("🌌 Exploração Cósmica", use_container_width=True):
         st.session_state.frequencia_ativa = "🌌 Exploração Cósmica"
         
-    # Caixa de estado ativo
+    # Caixa do Ativo
     st.markdown(
-        f"<div style='background-color: #2e1065; border: 1px solid #7c3aed; padding: 10px; border-radius: 8px; font-size: 13px; margin-top: 12px; margin-bottom: 20px; color: #f3f4f6;'><b>Ativo:</b> {st.session_state.frequencia_ativa}</div>", 
+        f"<div class='caixa-ativo'><b>Ativo:</b> {st.session_state.frequencia_ativa}</div>", 
         unsafe_allow_html=True
     )
     
@@ -102,9 +125,9 @@ with st.sidebar:
     
     # --- PORTAL DE TRIPULANTE ---
     st.markdown("### **Portal de Tripulante**")
-    st.markdown("<p style='font-size: 13px; margin-bottom: 12px;'>Desbloqueia energia ilimitada para a tua missão.</p>", unsafe_allow_html=True)
+    st.markdown("<p style='font-size: 13px;'>Desbloqueia energia ilimitada para a tua missão.</p>", unsafe_allow_html=True)
     
-    # Botão de subscrição Stripe oficial com o teu link
+    # Botão de subscrição Stripe com o teu link oficial
     st.link_button(
         "⭐ Subscrever Passe Estelar (2€/mês)", 
         "https://buy.stripe.com/cNidR9epr307gqneTFdZ600", 
@@ -113,7 +136,7 @@ with st.sidebar:
 
 # --- CONTEÚDO PRINCIPAL ---
 st.markdown("# Omni-Solver: Nexus Estelar & IA")
-st.markdown("✨ Explora a fronteira do conhecimento humano, robótica e inteligência profunda através do cosmos.")
+st.markdown("✨ *Explora a fronteira do conhecimento humano, robótica e inteligência profunda através do cosmos.*")
 
 st.markdown("---")
 
