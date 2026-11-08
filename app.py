@@ -8,7 +8,7 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-# 2. Estilização visual avançada para corresponder exatamente ao design desejado
+# 2. Estilização visual com contraste perfeito para a barra lateral e chat
 st.markdown("""
     <style>
     .stApp {
@@ -19,7 +19,14 @@ st.markdown("""
         background-color: #111827;
         border-right: 1px solid #1f2937;
     }
-    /* Estilo personalizado para os botões da barra lateral ficarem com o tom cósmico */
+    /* Garantir que todos os textos, títulos e parágrafos na barra lateral fiquem perfeitamente legíveis */
+    section[data-testid="stSidebar"] h3, 
+    section[data-testid="stSidebar"] p, 
+    section[data-testid="stSidebar"] span, 
+    section[data-testid="stSidebar"] label {
+        color: #f3f4f6 !important;
+    }
+    /* Estilo personalizado para os botões da barra lateral */
     div.stButton > button {
         background-color: #1a1b35 !important;
         color: #d8b4fe !important;
@@ -33,7 +40,7 @@ st.markdown("""
         border-color: #7c3aed !important;
         color: #ffffff !important;
     }
-    /* Correção de visibilidade e contraste para o input de chat */
+    /* Input de chat visível e contrastado */
     .stChatInput input {
         color: #ffffff !important;
         background-color: #1a2234 !important;
@@ -51,7 +58,7 @@ if "messages" not in st.session_state:
 # --- BARRA LATERAL ---
 with st.sidebar:
     st.markdown("### **Controlo da Nave**")
-    st.markdown("<p style='font-size: 13px; color: #9ca3af;'>Frequência de Raciocínio Ativa:</p>", unsafe_allow_html=True)
+    st.markdown("<p style='font-size: 13px;'>Frequência de Raciocínio Ativa:</p>", unsafe_allow_html=True)
     
     # Botões de seleção de frequência
     if st.button("✨ Investigação Científica & IA", use_container_width=True):
@@ -69,7 +76,7 @@ with st.sidebar:
     
     # --- PORTAL DE TRIPULANTE ---
     st.markdown("### **Portal de Tripulante**")
-    st.markdown("<p style='font-size: 13px; color: #d8b4fe;'>Desbloqueia energia ilimitada para a tua missão.</p>", unsafe_allow_html=True)
+    st.markdown("<p style='font-size: 13px;'>Desbloqueia energia ilimitada para a tua missão.</p>", unsafe_allow_html=True)
     
     # Botão de subscrição Stripe oficial com o teu link
     st.link_button(
