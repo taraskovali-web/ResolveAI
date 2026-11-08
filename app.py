@@ -9,7 +9,7 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-# Estilização Temática Espacial Completa (Sem qualquer fundo branco)
+# Estilização Temática Espacial Completa (Com gradiente de universo nos títulos laterais)
 st.markdown("""
     <style>
     /* Fundo Global da Aplicação */
@@ -41,7 +41,7 @@ st.markdown("""
         padding-bottom: 7rem;
     }
     
-    /* REMOVER FUNDO BRANCO DA PARTE INFERIOR (RODAPÉ DO CHAT) */
+    /* Remover fundo branco da parte inferior (rodapé do chat) */
     [data-testid="stBottom"], footer, .stChatInputContainer {
         background: transparent !important;
         background-color: rgba(9, 10, 15, 0) !important;
@@ -65,8 +65,8 @@ st.markdown("""
         background: transparent !important;
     }
 
-    /* Título com Gradiente Estilo Universo/Galáxia */
-    h1 {
+    /* Títulos principais e da barra lateral com Gradiente Estilo Universo/Galáxia */
+    h1, [data-testid="stSidebar"] h3 {
         background: linear-gradient(90deg, #c084fc 0%, #e879f9 33%, #60a5fa 66%, #22d3ee 100%) !important;
         -webkit-background-clip: text !important;
         -webkit-text-fill-color: transparent !important;
@@ -74,7 +74,7 @@ st.markdown("""
         letter-spacing: 1px;
     }
     
-    h2, h3 {
+    h2 {
         color: #c084fc !important;
     }
     
@@ -109,14 +109,14 @@ st.title("Omni-Solver: Nexus Estelar & IA")
 st.markdown("✨ *Explora a fronteira do conhecimento humano, robótica e inteligência profunda através do cosmos.*")
 
 # Barra Lateral - Controlo de Missão
-st.sidebar.markdown("### 🪐 Controlo da Nave")
+st.sidebar.markdown("### Controlo da Nave")
 modo_missao = st.sidebar.selectbox(
     "Frequência de Raciocínio",
     ["✨ Investigação Científica & IA", "🤖 Robótica & Sistemas de Elite", "🌌 Exploração Cósmica"]
 )
 
 st.sidebar.markdown("---")
-st.sidebar.markdown("### 🛰️ Portal de Tripulante")
+st.sidebar.markdown("### Portal de Tripulante")
 st.sidebar.write("Desbloqueia energia ilimitada para a tua missão.")
 stripe_url = "https://buy.stripe.com/test_cNidR9epR307gqnETFdZ600"
 st.sidebar.link_button("⭐ Subscrever Passe Estelar (2€/mês)", stripe_url)
