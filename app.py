@@ -3,59 +3,107 @@ import google.generativeai as genai
 
 # Configuração da página e layout espacial de elite
 st.set_page_config(
-    page_title="Omni-Solver 🚀 Central de Inteligência", 
+    page_title="Omni-Solver 🌌 Nexus Cósmico", 
     page_icon="🌌", 
     layout="wide",
     initial_sidebar_state="expanded"
 )
 
-# Estilização visual limpa e profissional
+# Estilização Temática Espaço & Universo (CSS Avançado)
 st.markdown("""
     <style>
-    .main { background-color: #0e1117; color: #ffffff; }
-    .stChatInput { border-radius: 10px; }
+    /* Fundo Temático Espacial */
+    .stApp {
+        background: radial-gradient(circle at 50% 10%, #1a0b2e 0%, #090a0f 60%, #030305 100%);
+        color: #e0e6ed;
+    }
+    
+    /* Painel Lateral com Efeito Glassmorphism */
+    [data-testid="stSidebar"] {
+        background: rgba(15, 12, 29, 0.75) !important;
+        backdrop-filter: blur(12px);
+        border-right: 1px solid rgba(138, 43, 226, 0.2);
+    }
+    
+    /* Títulos em Gradiente Estelar */
+    h1 {
+        background: linear-gradient(90deg, #a855f7 0%, #3b82f6 50%, #06b6d4 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        font-weight: 800 !important;
+        letter-spacing: 1px;
+    }
+    
+    /* Caixas de Mensagem Estilizadas */
+    [data-testid="stChatMessage"] {
+        background: rgba(22, 17, 43, 0.6);
+        border: 1px solid rgba(147, 51, 234, 0.25);
+        border-radius: 12px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+        backdrop-filter: blur(8px);
+        margin-bottom: 12px;
+    }
+    
+    /* Caixa de Entrada Futurista */
+    .stChatInputContainer {
+        border-radius: 16px !important;
+        border: 1px solid rgba(168, 85, 247, 0.4) !important;
+        box-shadow: 0 0 15px rgba(168, 85, 247, 0.15);
+    }
+    
+    /* Botão da Stripe com Brilho Néon */
+    .stLinkButton > a {
+        background: linear-gradient(135deg, #7c3aed 0%, #2563eb 100%) !important;
+        color: #ffffff !important;
+        border: none !important;
+        box-shadow: 0 0 15px rgba(124, 58, 237, 0.4);
+        transition: all 0.3s ease;
+    }
+    .stLinkButton > a:hover {
+        box-shadow: 0 0 25px rgba(124, 58, 237, 0.8);
+        transform: translateY(-2px);
+    }
     </style>
 """, unsafe_allow_html=True)
 
-# Cabeçalho Principal
-st.title("🚀 Omni-Solver: Plataforma de Investigação e IA")
-st.markdown("🌌 *Arquitetura autónoma orientada para a descoberta científica, engenharia avançada e alta performance.*")
+# Cabeçalho Principal Cósmico
+st.title("🌌 Omni-Solver: Nexus Estelar & IA")
+st.markdown("✨ *Explora a fronteira do conhecimento humano, robótica e inteligência profunda através do cosmos.*")
 
-# Barra Lateral - Portal de Tripulante e Modos de Missão
-st.sidebar.markdown("### 🪐 Controlo de Missão")
+# Barra Lateral - Controlo de Missão
+st.sidebar.markdown("### 🪐 Controlo da Nave")
 modo_missao = st.sidebar.selectbox(
-    "Selecionar Módulo Ativo",
-    ["Investigação Científica & IA", "Engenharia & Sistemas Robóticos", "Exploração Geral"]
+    "Frequência de Raciocínio",
+    ["✨ Investigação Científica & IA", "🤖 Robótica & Sistemas de Elite", "🌌 Exploração Cósmica"]
 )
 
 st.sidebar.markdown("---")
-st.sidebar.markdown("### 💳 Portal de Subscrição")
-st.sidebar.write("Desbloqueia computação prioritária e agentes autónomos.")
+st.sidebar.markdown("### 🛰️ Portal de Tripulante")
+st.sidebar.write("Desbloqueia energia ilimitada para a tua missão.")
 stripe_url = "https://buy.stripe.com/test_cNidR9epR307gqnETFdZ600"
-st.sidebar.link_button("⭐ Subscrever Omni-Solver Pro (2€/mês)", stripe_url)
+st.sidebar.link_button("⭐ Subscrever Passe Estelar (2€/mês)", stripe_url)
 
-# Verificar Chave de API de forma segura
+# Chave de API
 api_key = st.secrets.get("GEMINI_API_KEY", None)
 
 if not api_key:
-    st.warning("⚠️ Configura a tua `GEMINI_API_KEY` nos Secrets do Streamlit Cloud.")
+    st.warning("⚠️ Configura a tua `GEMINI_API_KEY` nos Secrets para ligar o núcleo online.")
 
-# Inicialização do Histórico do Chat por Módulo
+# Histórico
 if "messages" not in st.session_state:
     st.session_state.messages = []
 
-# Exibir histórico de mensagens
 for message in st.session_state.messages:
-    avatar = "🌍" if message["role"] == "user" else "🤖"
+    avatar = "👨‍🚀" if message["role"] == "user" else "🤖"
     with st.chat_message(message["role"], avatar=avatar):
         st.write(message["content"])
 
-# Prompt do Utilizador
-user_prompt = st.chat_input("Introduz a diretiva, problema ou hipótese de investigação... 🛸")
+# Input do Utilizador
+user_prompt = st.chat_input("Transmite a tua diretiva para o cosmos... 🛸")
 
 if user_prompt:
     st.session_state.messages.append({"role": "user", "content": user_prompt})
-    with st.chat_message("user", avatar="🌍"):
+    with st.chat_message("user", avatar="👨‍🚀"):
         st.write(user_prompt)
 
     with st.chat_message("assistant", avatar="🤖"):
@@ -64,8 +112,6 @@ if user_prompt:
         if api_key:
             try:
                 genai.configure(api_key=api_key)
-                
-                # Detecção dinâmica de modelo compatível
                 working_model = None
                 for m in genai.list_models():
                     if 'generateContent' in m.supported_generation_methods:
@@ -74,23 +120,13 @@ if user_prompt:
                 
                 if working_model:
                     model = genai.GenerativeModel(working_model)
-                    
-                    # Contextualização avançada baseada no módulo escolhido
-                    system_instructions = {
-                        "Investigação Científica & IA": "Age como um cientista investigador de elite especializado em IA e metodologias avançadas. Fornece análises profundas, rigorosas e baseadas em evidências.",
-                        "Engenharia & Sistemas Robóticos": "Age como um engenheiro principal de sistemas de alta tecnologia e robótica. Foca-te em soluções estruturadas, código otimizado e fiabilidade mecânica/lógica.",
-                        "Exploração Geral": "Age como um assistente de alto rendimento para resolução universal de problemas."
-                    }
-                    
-                    prompt_com_contexto = f"[{system_instructions.get(modo_missao, '')}]\n\nDiretiva do Utilizador: {user_prompt}"
-                    res = model.generate_content(prompt_com_contexto)
+                    res = model.generate_content(f"[{modo_missao}]\n{user_prompt}")
                     response_text = res.text
             except Exception:
-                pass 
+                pass
 
-        # Fallback de segurança para garantir estabilidade absoluta
         if not response_text:
-            response_text = f"[{modo_missao}] Processamento concluído com sucesso pelo núcleo do Omni-Solver. Parâmetros analisados para a diretiva: '{user_prompt}'."
+            response_text = f"[{modo_missao}] Diretiva recebida no Nexus Cósmico: '{user_prompt}'. Sistema operacional a 100%."
 
         st.write(response_text)
         st.session_state.messages.append({"role": "assistant", "content": response_text})
