@@ -8,9 +8,10 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-# 2. Estilização visual com contraste perfeito para a barra lateral e chat
+# 2. Estilização visual exata baseada na tua referência
 st.markdown("""
     <style>
+    /* Fundo geral e da barra lateral */
     .stApp {
         background-color: #0b0f19;
         color: #ffffff;
@@ -19,28 +20,49 @@ st.markdown("""
         background-color: #111827;
         border-right: 1px solid #1f2937;
     }
-    /* Garantir que todos os textos, títulos e parágrafos na barra lateral fiquem perfeitamente legíveis */
-    section[data-testid="stSidebar"] h3, 
-    section[data-testid="stSidebar"] p, 
-    section[data-testid="stSidebar"] span, 
-    section[data-testid="stSidebar"] label {
+    section[data-testid="stSidebar"] h3 {
         color: #f3f4f6 !important;
+        font-size: 16px !important;
+        margin-bottom: 0px !important;
     }
-    /* Estilo personalizado para os botões da barra lateral */
+    section[data-testid="stSidebar"] p {
+        color: #9ca3af !important;
+    }
+    
+    /* Estilo dos botões da barra lateral (Frequências de Raciocínio) */
     div.stButton > button {
-        background-color: #1a1b35 !important;
-        color: #d8b4fe !important;
-        border: 1px solid #4c1d95 !important;
+        background-color: #2e1065 !important;
+        color: #ffffff !important;
+        border: 1px solid #7c3aed !important;
         border-radius: 8px !important;
         font-weight: 500;
+        text-align: left !important;
         transition: all 0.3s ease;
     }
     div.stButton > button:hover {
-        background-color: #2e1065 !important;
-        border-color: #7c3aed !important;
+        background-color: #3b0764 !important;
+        border-color: #9333ea !important;
         color: #ffffff !important;
     }
-    /* Input de chat visível e contrastado */
+
+    /* ESTILO DO BOTÃO DO PASSE ESTELAR (Stripe Link Button) */
+    div.stLinkButton > a {
+        background-color: #7c3aed !important;
+        color: #ffffff !important;
+        border: 1px solid #9333ea !important;
+        border-radius: 8px !important;
+        font-weight: 600 !important;
+        text-align: center !important;
+        box-shadow: 0px 4px 12px rgba(124, 58, 237, 0.4);
+        transition: all 0.3s ease;
+    }
+    div.stLinkButton > a:hover {
+        background-color: #6d28d9 !important;
+        border-color: #a855f7 !important;
+        color: #ffffff !important;
+    }
+    
+    /* Caixa de chat contrastada e legível */
     .stChatInput input {
         color: #ffffff !important;
         background-color: #1a2234 !important;
@@ -58,7 +80,7 @@ if "messages" not in st.session_state:
 # --- BARRA LATERAL ---
 with st.sidebar:
     st.markdown("### **Controlo da Nave**")
-    st.markdown("<p style='font-size: 13px;'>Frequência de Raciocínio Ativa:</p>", unsafe_allow_html=True)
+    st.markdown("<p style='font-size: 13px; margin-bottom: 8px;'>Frequência de Raciocínio Ativa:</p>", unsafe_allow_html=True)
     
     # Botões de seleção de frequência
     if st.button("✨ Investigação Científica & IA", use_container_width=True):
@@ -70,13 +92,17 @@ with st.sidebar:
     if st.button("🌌 Exploração Cósmica", use_container_width=True):
         st.session_state.frequencia_ativa = "🌌 Exploração Cósmica"
         
-    st.markdown(f"<div style='background-color: #1a1b35; border: 1px solid #4c1d95; padding: 10px; border-radius: 8px; font-size: 12px; margin-top: 12px; margin-bottom: 20px; color: #e9d5ff;'><b>Ativo:</b> {st.session_state.frequencia_ativa}</div>", unsafe_allow_html=True)
+    # Caixa de estado ativo
+    st.markdown(
+        f"<div style='background-color: #2e1065; border: 1px solid #7c3aed; padding: 10px; border-radius: 8px; font-size: 13px; margin-top: 12px; margin-bottom: 20px; color: #f3f4f6;'><b>Ativo:</b> {st.session_state.frequencia_ativa}</div>", 
+        unsafe_allow_html=True
+    )
     
     st.markdown("---")
     
     # --- PORTAL DE TRIPULANTE ---
     st.markdown("### **Portal de Tripulante**")
-    st.markdown("<p style='font-size: 13px;'>Desbloqueia energia ilimitada para a tua missão.</p>", unsafe_allow_html=True)
+    st.markdown("<p style='font-size: 13px; margin-bottom: 12px;'>Desbloqueia energia ilimitada para a tua missão.</p>", unsafe_allow_html=True)
     
     # Botão de subscrição Stripe oficial com o teu link
     st.link_button(
