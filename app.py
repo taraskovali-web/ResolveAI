@@ -9,23 +9,28 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-# Estilização Temática com a Cor Sólida Exata que Pediste
+# Estilização Temática Espacial (Textos a Branco e Roxo Sólido)
 st.markdown("""
     <style>
     /* Fundo Temático Espacial */
     .stApp {
         background: radial-gradient(circle at 50% 10%, #1a0b2e 0%, #090a0f 60%, #030305 100%);
-        color: #e0e6ed;
+        color: #ffffff !important;
+    }
+    
+    /* Forçar todo o texto geral e descrições a branco */
+    p, span, label, div, .stMarkdown {
+        color: #ffffff !important;
     }
     
     /* Painel Lateral com Efeito Glassmorphism */
     [data-testid="stSidebar"] {
-        background: rgba(15, 12, 29, 0.75) !important;
+        background: rgba(15, 12, 29, 0.85) !important;
         backdrop-filter: blur(12px);
         border-right: 1px solid rgba(138, 43, 226, 0.2);
     }
     
-    /* Títulos com a cor sólida exata (Roxo/Violeta limpo) */
+    /* Títulos com a cor roxa sólida exata */
     h1 {
         color: #8b5cf6 !important;
         font-weight: 800 !important;
@@ -38,19 +43,20 @@ st.markdown("""
     
     /* Caixas de Mensagem Estilizadas */
     [data-testid="stChatMessage"] {
-        background: rgba(22, 17, 43, 0.6);
-        border: 1px solid rgba(147, 51, 234, 0.25);
+        background: rgba(22, 17, 43, 0.7);
+        border: 1px solid rgba(147, 51, 234, 0.3);
         border-radius: 12px;
         box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
         backdrop-filter: blur(8px);
         margin-bottom: 12px;
+        color: #ffffff !important;
     }
     
     /* Caixa de Entrada Futurista */
     .stChatInputContainer {
         border-radius: 16px !important;
-        border: 1px solid rgba(139, 92, 246, 0.4) !important;
-        box-shadow: 0 0 15px rgba(139, 92, 246, 0.15);
+        border: 1px solid rgba(139, 92, 246, 0.5) !important;
+        box-shadow: 0 0 15px rgba(139, 92, 246, 0.2);
     }
     
     /* Botão da Stripe com Brilho Néon */
