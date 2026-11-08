@@ -1,219 +1,147 @@
 import streamlit as st
-import google.generativeai as genai
 
-# Configuração da página e layout espacial de elite
+# Configuração da Página
 st.set_page_config(
-    page_title="Omni-Solver 🌌 Nexus Cósmico", 
-    page_icon="🌌", 
-    layout="wide",
-    initial_sidebar_state="expanded"
+    page_title="Omni-Solver: Nexus Estelar & IA",
+    page_icon="🛸",
+    layout="wide"
 )
 
-# Estilização Temática Espacial Completa
+# Estilos CSS personalizados com forçagem total para a barra de chat cósmica
 st.markdown("""
     <style>
-    /* Fundo Global da Aplicação */
+    /* Fundo geral da aplicação */
     .stApp {
-        background: radial-gradient(circle at 50% 10%, #1a0b2e 0%, #090a0f 60%, #030305 100%);
-        color: #ffffff !important;
+        background-color: #030008;
+        color: #ffffff;
     }
     
-    /* Forçar todo o texto geral e descrições a branco */
-    p, span, label, div, .stMarkdown {
-        color: #ffffff !important;
-    }
-    
-    /* Painel Lateral com Efeito Glassmorphism */
+    /* Estilo da Barra Lateral (Sidebar) */
     [data-testid="stSidebar"] {
-        background: rgba(15, 12, 29, 0.85) !important;
-        backdrop-filter: blur(12px);
-        border-right: 1px solid rgba(138, 43, 226, 0.2);
-    }
-    
-    /* Remover blocos brancos do cabeçalho superior e container principal */
-    [data-testid="stHeader"] {
-        background: rgba(0, 0, 0, 0) !important;
-    }
-    
-    .block-container {
-        background: transparent !important;
-        padding-top: 2rem;
-        padding-bottom: 7rem;
-    }
-    
-    /* Remover fundo branco da parte inferior (rodapé do chat) */
-    [data-testid="stBottom"], footer, .stChatInputContainer {
-        background: transparent !important;
-        background-color: rgba(9, 10, 15, 0) !important;
+        background-color: #080314;
+        border-right: 1px solid rgba(168, 85, 247, 0.2);
     }
 
-    [data-testid="stBottom"] > div {
-        background: transparent !important;
-    }
-
-    /* Caixa de Chat Inferior com Efeito de Vidro Escuro Cósmico */
-    [data-testid="stChatInput"] {
-        background: rgba(15, 12, 29, 0.9) !important;
+    /* Estilo uniforme para os botões na barra lateral */
+    [data-testid="stSidebar"] .stButton > button {
+        background: linear-gradient(135deg, #2e1065 0%, #3b0764 50%, #1e1b4b 100%) !important;
+        color: #ffffff !important;
         border: 1px solid rgba(168, 85, 247, 0.5) !important;
-        border-radius: 16px !important;
-        box-shadow: 0 0 20px rgba(139, 92, 246, 0.25);
-        backdrop-filter: blur(12px);
+        border-radius: 12px !important;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4), 0 0 10px rgba(147, 51, 234, 0.2) !important;
+        font-weight: 500 !important;
+        transition: all 0.3s ease !important;
     }
-    
+
+    /* Efeito ao passar o rato por cima dos botões */
+    [data-testid="stSidebar"] .stButton > button:hover {
+        background: linear-gradient(135deg, #3b0764 0%, #581c87 50%, #312e81 100%) !important;
+        border-color: #c084fc !important;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.6), 0 0 15px rgba(192, 132, 252, 0.4) !important;
+    }
+
+    /* Caixa de estado ativo com o fundo cósmico e letra branca */
+    .ativo-cosmos {
+        background: linear-gradient(135deg, #1e1b4b 0%, #311042 100%);
+        border: 1px solid rgba(168, 85, 247, 0.4);
+        padding: 12px;
+        border-radius: 12px;
+        color: #ffffff !important;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+        margin-top: 10px;
+    }
+
+    /* --- BARRA DE CHAT INPUT: FUNDO DO UNIVERSO E LETRAS BRANCAS --- */
+    [data-testid="stChatInput"] {
+        max-width: 730px !important;
+        margin: 0 auto !important;
+    }
+
+    /* Força o fundo da caixa de texto a assumir o gradiente cósmico */
+    [data-testid="stChatInput"] > div,
+    [data-testid="stChatInput"] div[data-baseweb="base-input"] {
+        background: linear-gradient(135deg, #060112 0%, #14072b 45%, #0b112c 80%, #03000a 100%) !important;
+        background-color: #060112 !important;
+        border: 1px solid rgba(168, 85, 247, 0.6) !important;
+        border-radius: 14px !important;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.7), 0 0 15px rgba(147, 51, 234, 0.35) !important;
+    }
+
+    /* Cor do texto digitado (branco puro) */
     [data-testid="stChatInput"] textarea {
         color: #ffffff !important;
+        font-size: 15px !important;
         background: transparent !important;
+        -webkit-text-fill-color: #ffffff !important;
     }
 
-    /* Títulos principais e da barra lateral com Gradiente Estilo Universo/Galáxia */
-    h1, [data-testid="stSidebar"] h3 {
-        background: linear-gradient(90deg, #c084fc 0%, #e879f9 33%, #60a5fa 66%, #22d3ee 100%) !important;
-        -webkit-background-clip: text !important;
-        -webkit-text-fill-color: transparent !important;
-        font-weight: 800 !important;
-        letter-spacing: 1px;
-    }
-    
-    h2 {
-        color: #c084fc !important;
+    /* Cor do texto de exemplo/placeholder */
+    [data-testid="stChatInput"] textarea::placeholder {
+        color: rgba(255, 255, 255, 0.65) !important;
+        opacity: 1 !important;
     }
 
-    /* Estilização personalizada para os botões de missão na barra lateral */
-    .stButton > button {
-        width: 100%;
-        background: linear-gradient(135deg, rgba(124, 58, 237, 0.5) 0%, rgba(79, 70, 229, 0.5) 50%, rgba(6, 182, 212, 0.4) 100%) !important;
+    /* Botão de envio dentro do chat */
+    [data-testid="stChatInput"] button {
+        background: rgba(168, 85, 247, 0.25) !important;
+        border: 1px solid rgba(168, 85, 247, 0.5) !important;
         color: #ffffff !important;
-        border: 1px solid rgba(168, 85, 247, 0.6) !important;
-        border-radius: 12px !important;
-        padding: 0.6rem 1rem;
-        font-weight: 600;
-        box-shadow: 0 0 15px rgba(139, 92, 246, 0.2);
-        transition: all 0.3s ease;
-    }
-    
-    .stButton > button:hover {
-        background: linear-gradient(135deg, rgba(124, 58, 237, 0.8) 0%, rgba(79, 70, 229, 0.8) 100%) !important;
-        box-shadow: 0 0 25px rgba(139, 92, 246, 0.6);
-        border-color: #c084fc !important;
-        transform: translateY(-2px);
+        border-radius: 10px !important;
     }
 
-    /* Caixa de indicador de ativo customizada com fundo de universo */
-    .activo-box {
-        background: linear-gradient(135deg, rgba(124, 58, 237, 0.4) 0%, rgba(79, 70, 229, 0.4) 50%, rgba(6, 182, 212, 0.3) 100%);
-        border: 1px solid rgba(168, 85, 247, 0.6);
-        border-radius: 12px;
-        padding: 12px;
-        margin-top: 10px;
-        box-shadow: 0 0 15px rgba(139, 92, 246, 0.2);
-        color: #ffffff !important;
-        font-size: 14px;
+    [data-testid="stChatInput"] button svg {
+        fill: #ffffff !important;
     }
 
-    /* Caixas de Mensagem Estilizadas */
-    [data-testid="stChatMessage"] {
-        background: rgba(22, 17, 43, 0.7);
-        border: 1px solid rgba(147, 51, 234, 0.3);
-        border-radius: 12px;
-        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
-        backdrop-filter: blur(8px);
-        margin-bottom: 12px;
-        color: #ffffff !important;
-    }
-    
-    /* Botão da Stripe com Brilho Néon */
-    .stLinkButton > a {
-        background: linear-gradient(135deg, #7c3aed 0%, #4f46e5 100%) !important;
-        color: #ffffff !important;
-        border: none !important;
-        box-shadow: 0 0 15px rgba(124, 58, 237, 0.4);
-        transition: all 0.3s ease;
-    }
-    .stLinkButton > a:hover {
-        box-shadow: 0 0 25px rgba(124, 58, 237, 0.8);
-        transform: translateY(-2px);
+    [data-testid="stChatInput"] button:hover {
+        background: rgba(168, 85, 247, 0.6) !important;
     }
     </style>
 """, unsafe_allow_html=True)
 
-# Cabeçalho Principal Cósmico
-st.title("Omni-Solver: Nexus Estelar & IA")
-st.markdown("✨ *Explora a fronteira do conhecimento humano, robótica e inteligência profunda através do cosmos.*")
-
-# Barra Lateral - Controlo de Missão com Botões Temáticos
-st.sidebar.markdown("### Controlo da Nave")
-st.sidebar.markdown("<small style='color: #ffffff;'>Frequência de Raciocínio Ativa:</small>", unsafe_allow_html=True)
-
-# Gestão do Estado do Módulo Ativo
-if "modo_missao" not in st.session_state:
-    st.session_state.modo_missao = "✨ Investigação Científica & IA"
-
-if st.sidebar.button("✨ Investigação Científica & IA"):
-    st.session_state.modo_missao = "✨ Investigação Científica & IA"
-if st.sidebar.button("🤖 Robótica & Sistemas de Elite"):
-    st.session_state.modo_missao = "🤖 Robótica & Sistemas de Elite"
-if st.sidebar.button("🌌 Exploração Cósmica"):
-    st.session_state.modo_missao = "🌌 Exploração Cósmica"
-
-modo_missao = st.session_state.modo_missao
-
-# Substituição do st.info por HTML com fundo do universo e letra branca
-st.sidebar.markdown(f"""
-    <div class="activo-box">
-        Ativo: <b>{modo_missao}</b>
-    </div>
-""", unsafe_allow_html=True)
-
-st.sidebar.markdown("---")
-st.sidebar.markdown("### Portal de Tripulante")
-st.sidebar.write("Desbloqueia energia ilimitada para a tua missão.")
-stripe_url = "https://buy.stripe.com/test_cNidR9epR307gqnETFdZ600"
-st.sidebar.link_button("⭐ Subscrever Passe Estelar (2€/mês)", stripe_url)
-
-# Chave de API
-api_key = st.secrets.get("GEMINI_API_KEY", None)
-
-if not api_key:
-    st.warning("⚠️ Configura a tua `GEMINI_API_KEY` nos Secrets para ligar o núcleo online.")
-
-# Histórico
-if "messages" not in st.session_state:
-    st.session_state.messages = []
-
-for message in st.session_state.messages:
-    avatar = "👨‍🚀" if message["role"] == "user" else "🤖"
-    with st.chat_message(message["role"], avatar=avatar):
-        st.write(message["content"])
-
-# Input do Utilizador
-user_prompt = st.chat_input("Transmite a tua diretiva para o cosmos... 🛸")
-
-if user_prompt:
-    st.session_state.messages.append({"role": "user", "content": user_prompt})
-    with st.chat_message("user", avatar="👨‍🚀"):
-        st.write(user_prompt)
-
-    with st.chat_message("assistant", avatar="🤖"):
-        response_text = ""
+# --- BARRA LATERAL (CONTROLO DA NAVE) ---
+with st.sidebar:
+    st.markdown("### **Controlo da Nave**")
+    st.markdown("<p style='font-size: 13px; color: #d8b4fe;'>Frequência de Raciocínio Ativa:</p>", unsafe_allow_html=True)
+    
+    if st.button("✨ Investigação Científica & IA", use_container_width=True):
+        st.session_state['freq'] = "Investigação Científica & IA"
+    if st.button("🤖 Robótica & Sistemas de Elite", use_container_width=True):
+        st.session_state['freq'] = "Robótica & Sistemas de Elite"
+    if st.button("🛸 Exploração Cósmica", use_container_width=True):
+        st.session_state['freq'] = "Exploração Cósmica"
         
-        if api_key:
-            try:
-                genai.configure(api_key=api_key)
-                working_model = None
-                for m in genai.list_models():
-                    if 'generateContent' in m.supported_generation_methods:
-                        working_model = m.name
-                        break
-                
-                if working_model:
-                    model = genai.GenerativeModel(working_model)
-                    res = model.generate_content(f"[{modo_missao}]\n{user_prompt}")
-                    response_text = res.text
-            except Exception:
-                pass
+    freq_atual = st.session_state.get('freq', 'Investigação Científica & IA')
+    st.markdown(f"""
+        <div class="ativo-cosmos">
+            <span style='font-size: 12px; color: #4ade80; font-weight: bold;'>Ativo:</span><br>
+            <span style='font-size: 13px; color: #ffffff;'>✨ {freq_atual}</span>
+        </div>
+    """, unsafe_allow_html=True)
+    
+    st.markdown("---")
+    
+    st.markdown("### **Portal de Tripulante**")
+    st.markdown("<p style='font-size: 13px; color: #d8b4fe;'>Desbloqueia energia ilimitada para a tua missão.</p>", unsafe_allow_html=True)
+    
+    if st.button("⭐ Subscrever Passe Estelar (2€/mês)", use_container_width=True):
+        st.success("A redirecionar para o checkout seguro da Stripe...")
 
-        if not response_text:
-            response_text = f"[{modo_missao}] Diretiva recebida no Nexus Cósmico: '{user_prompt}'. Sistema operacional a 100%."
+# --- CORPO PRINCIPAL ---
+st.markdown("# Omni-Solver: Nexus Estelar & IA")
+st.markdown("*✨ Explora a fronteira do conhecimento humano, robótica e inteligência profunda através do cosmos.*")
+st.markdown("")
 
-        st.write(response_text)
-        st.session_state.messages.append({"role": "assistant", "content": response_text})
+with st.chat_message("user", avatar="🪐"):
+    st.write("Qual é o maior problema de todas as pessoas e empresas agora?")
+
+with st.chat_message("assistant", avatar="🛸"):
+    st.write("Processado com sucesso pelo Omni-Solver Engine. Recebi a tua mensagem: 'Qual é o maior problema de todas as pessoas e empresas agora?'.")
+
+prompt = st.chat_input("Transmite a tua diretiva para o cosmos... 🛸")
+
+if prompt:
+    with st.chat_message("user", avatar="🪐"):
+        st.write(prompt)
+    with st.chat_message("assistant", avatar="🛸"):
+        st.write(f"Processado com sucesso pelo Omni-Solver Engine. Recebi a tua mensagem: '{prompt}'.")
