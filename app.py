@@ -23,10 +23,12 @@ st.markdown("""
         font-family: 'Helvetica Neue', sans-serif;
         text-shadow: 0 0 20px rgba(56, 189, 248, 0.4);
     }
-    .stChatInput input {
-        background-color: #1e293b !important;
+    /* Forçar texto branco e visível durante a digitação */
+    .stChatInput textarea {
         color: #ffffff !important;
-        border: 1px solid #38bdf8 !important;
+        -webkit-text-fill-color: #ffffff !important;
+        background-color: #1e293b !important;
+        caret-color: #ffffff !important;
     }
     </style>
 """, unsafe_allow_html=True)
