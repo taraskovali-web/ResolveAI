@@ -31,10 +31,10 @@ if user_prompt:
         
     with st.chat_message("assistant", avatar="🤖"):
         try:
-            # Usar o modelo correto suportado pelo novo SDK da Google
+            # Usar o modelo padrão estável 'gemini-1.5-flash'
             def generate_stream():
                 response = client.models.generate_content_stream(
-                    model="gemini-2.5-flash",
+                    model="gemini-1.5-flash",
                     contents=user_prompt,
                 )
                 for chunk in response:
