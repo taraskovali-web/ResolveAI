@@ -31,7 +31,6 @@ if user_prompt:
         
     with st.chat_message("assistant", avatar="🤖"):
         try:
-            # Função geradora para streaming em tempo real (resposta instantânea)
             def generate_stream():
                 response = client.models.generate_content_stream(
                     model="gemini-3.8-flash",
@@ -41,11 +40,14 @@ if user_prompt:
                     if chunk.text:
                         yield chunk.text
             
-            # O Streamlit escreve a resposta à medida que ela chega da IA
             st.write_stream(generate_stream())
             
         except Exception as e:
-            st.error(f"Ocorreu um erro na comunicação estelar: {e}")
+            error_msg = str(e)
+            if "503" in error_msg or "UNAVAILABLE" in error_msg:
+                st.warning("⚠️ **Tráfego cósmico elevado:** Os servidores da Google estão com muita procura neste momento. Por favor, aguarda 5 segundos e envia a mensagem novamente!")
+            else:
+                st.error(f"Ocorreu um erro na comunicação estelar: {e}")
 
 # Barra lateral com temática e botão da Stripe
 st.sidebar.markdown("### 🪐 Portal de Tripulante")
