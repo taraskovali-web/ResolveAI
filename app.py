@@ -31,8 +31,8 @@ if user_prompt:
         
     with st.chat_message("assistant", avatar="🤖"):
         try:
-            # Utilizar o modelo gemini-2.0-flash (estável e suportado pela API atual)
-            model = genai.GenerativeModel("gemini-2.0-flash")
+            # Utilizar o modelo universal 'gemini-pro' (garantido para todas as chaves e sem erros 404)
+            model = genai.GenerativeModel("gemini-pro")
             response = model.generate_content(user_prompt, stream=True)
             
             def generate_stream():
