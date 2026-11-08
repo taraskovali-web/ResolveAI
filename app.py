@@ -9,7 +9,7 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-# Estilização Temática Espaço & Universo (CSS Avançado)
+# Estilização Temática com a Cor Sólida Exata que Pediste
 st.markdown("""
     <style>
     /* Fundo Temático Espacial */
@@ -25,13 +25,15 @@ st.markdown("""
         border-right: 1px solid rgba(138, 43, 226, 0.2);
     }
     
-    /* Títulos em Gradiente Estelar */
+    /* Títulos com a cor sólida exata (Roxo/Violeta limpo) */
     h1 {
-        background: linear-gradient(90deg, #a855f7 0%, #3b82f6 50%, #06b6d4 100%);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
+        color: #8b5cf6 !important;
         font-weight: 800 !important;
         letter-spacing: 1px;
+    }
+    
+    h2, h3 {
+        color: #a78bfa !important;
     }
     
     /* Caixas de Mensagem Estilizadas */
@@ -47,13 +49,13 @@ st.markdown("""
     /* Caixa de Entrada Futurista */
     .stChatInputContainer {
         border-radius: 16px !important;
-        border: 1px solid rgba(168, 85, 247, 0.4) !important;
-        box-shadow: 0 0 15px rgba(168, 85, 247, 0.15);
+        border: 1px solid rgba(139, 92, 246, 0.4) !important;
+        box-shadow: 0 0 15px rgba(139, 92, 246, 0.15);
     }
     
     /* Botão da Stripe com Brilho Néon */
     .stLinkButton > a {
-        background: linear-gradient(135deg, #7c3aed 0%, #2563eb 100%) !important;
+        background: linear-gradient(135deg, #7c3aed 0%, #4f46e5 100%) !important;
         color: #ffffff !important;
         border: none !important;
         box-shadow: 0 0 15px rgba(124, 58, 237, 0.4);
@@ -67,7 +69,7 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # Cabeçalho Principal Cósmico
-st.title("🌌 Omni-Solver: Nexus Estelar & IA")
+st.title("Omni-Solver: Nexus Estelar & IA")
 st.markdown("✨ *Explora a fronteira do conhecimento humano, robótica e inteligência profunda através do cosmos.*")
 
 # Barra Lateral - Controlo de Missão
