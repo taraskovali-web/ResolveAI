@@ -9,7 +9,7 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-# Estilização Temática Espacial Completa (Menus com fundo do universo e texto branco)
+# Estilização Temática Espacial Completa
 st.markdown("""
     <style>
     /* Fundo Global da Aplicação */
@@ -78,38 +78,26 @@ st.markdown("""
         color: #c084fc !important;
     }
 
-    /* Caixa de Seleção Principal (Botão Fechado) */
-    [data-testid="stSelectbox"] div[data-baseweb="select"] > div {
+    /* Estilização personalizada para os botões de missão na barra lateral */
+    .stButton > button {
+        width: 100%;
         background: linear-gradient(135deg, rgba(124, 58, 237, 0.5) 0%, rgba(79, 70, 229, 0.5) 50%, rgba(6, 182, 212, 0.4) 100%) !important;
+        color: #ffffff !important;
         border: 1px solid rgba(168, 85, 247, 0.6) !important;
         border-radius: 12px !important;
+        padding: 0.6rem 1rem;
+        font-weight: 600;
         box-shadow: 0 0 15px rgba(139, 92, 246, 0.2);
-    }
-
-    [data-testid="stSelectbox"] span {
-        color: #ffffff !important;
-    }
-
-    /* MENU FLUTUANTE DO SELECTBOX (FUNDO DO UNIVERSO E LETRAS BRANCAS) */
-    div[data-baseweb="popover"], div[data-baseweb="menu"], ul[role="listbox"] {
-        background: radial-gradient(circle at 50% 10%, #24113c 0%, #0e0a1a 100%) !important;
-        border: 1px solid rgba(168, 85, 247, 0.6) !important;
-        border-radius: 12px !important;
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8) !important;
-    }
-
-    /* Forçar texto branco e fundo transparente em todos os itens da lista */
-    div[data-baseweb="menu"] div, ul[role="listbox"] li, ul[role="listbox"] div {
-        background-color: transparent !important;
-        color: #ffffff !important;
-    }
-
-    /* Opção selecionada ou em destaque no menu */
-    ul[role="listbox"] li[aria-selected="true"], ul[role="listbox"] li:hover {
-        background: linear-gradient(135deg, rgba(124, 58, 237, 0.6) 0%, rgba(79, 70, 229, 0.6) 100%) !important;
-        color: #ffffff !important;
+        transition: all 0.3s ease;
     }
     
+    .stButton > button:hover {
+        background: linear-gradient(135deg, rgba(124, 58, 237, 0.8) 0%, rgba(79, 70, 229, 0.8) 100%) !important;
+        box-shadow: 0 0 25px rgba(139, 92, 246, 0.6);
+        border-color: #c084fc !important;
+        transform: translateY(-2px);
+    }
+
     /* Caixas de Mensagem Estilizadas */
     [data-testid="stChatMessage"] {
         background: rgba(22, 17, 43, 0.7);
@@ -140,12 +128,23 @@ st.markdown("""
 st.title("Omni-Solver: Nexus Estelar & IA")
 st.markdown("✨ *Explora a fronteira do conhecimento humano, robótica e inteligência profunda através do cosmos.*")
 
-# Barra Lateral - Controlo de Missão
+# Barra Lateral - Controlo de Missão com Botões Temáticos
 st.sidebar.markdown("### Controlo da Nave")
-modo_missao = st.sidebar.selectbox(
-    "Frequência de Raciocínio",
-    ["✨ Investigação Científica & IA", "🤖 Robótica & Sistemas de Elite", "🌌 Exploração Cósmica"]
-)
+st.sidebar.markdown("<small style='color: #ffffff;'>Frequência de Raciocínio Ativa:</small>", unsafe_allow_html=True)
+
+# Gestão do Estado do Módulo Ativo
+if "modo_missao" not in st.session_state:
+    st.session_state.modo_missao = "✨ Investigação Científica & IA"
+
+if st.sidebar.button("✨ Investigação Científica & IA"):
+    st.session_state.modo_missao = "✨ Investigação Científica & IA"
+if st.sidebar.button("🤖 Robótica & Sistemas de Elite"):
+    st.session_state.modo_missao = "🤖 Robótica & Sistemas de Elite"
+if st.sidebar.button("🌌 Exploração Cósmica"):
+    st.session_state.modo_missao = "🌌 Exploração Cósmica"
+
+modo_missao = st.session_state.modo_missao
+st.sidebar.info(f"Ativo: **{modo_missao}**")
 
 st.sidebar.markdown("---")
 st.sidebar.markdown("### Portal de Tripulante")
