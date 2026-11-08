@@ -8,7 +8,7 @@ st.set_page_config(
     layout="centered"
 )
 
-# Estilo visual personalizado (Tema Espacial / Dark Cosmic)
+# Estilo visual limpo
 st.markdown("""
     <style>
     .stApp {
@@ -22,13 +22,6 @@ st.markdown("""
         color: #38bdf8;
         font-family: 'Helvetica Neue', sans-serif;
         text-shadow: 0 0 20px rgba(56, 189, 248, 0.4);
-    }
-    /* Forçar texto branco e visível durante a digitação */
-    .stChatInput textarea {
-        color: #ffffff !important;
-        -webkit-text-fill-color: #ffffff !important;
-        background-color: #1e293b !important;
-        caret-color: #ffffff !important;
     }
     </style>
 """, unsafe_allow_html=True)
@@ -47,7 +40,7 @@ else:
 # Inicializar o cliente do Google GenAI
 client = genai.Client(api_key=api_key)
 
-# Caixa de texto para o utilizador colocar a pergunta
+# Caixa de texto padrão
 user_prompt = st.chat_input("Qual é a tua missão ou dúvida hoje? 🛸")
 
 if user_prompt:
@@ -57,28 +50,19 @@ if user_prompt:
     with st.chat_message("assistant", avatar="🤖"):
         with st.spinner("✨ A calcular trajetória cósmica..."):
             try:
-                # Gerar resposta usando o modelo estável
+                # Usar gemini-2.5-flash que é extremamente rápido e estável
                 response = client.models.generate_content(
-                    model="gemini-3.8-flash",
+                    model="gemini-2.5-flash",
                     contents=user_prompt,
                 )
                 st.write(response.text)
             except Exception as e:
-                # Fallback automático se houver pico de tráfego
-                try:
-                    response = client.models.generate_content(
-                        model="gemini-2.5-flash",
-                        contents=user_prompt,
-                    )
-                    st.write(response.text)
-                except Exception as err:
-                    st.error(f"Ocorreu um erro na comunicação estelar: {err}")
+                st.error(f"Ocorreu um erro na comunicação estelar: {e}")
 
 # Barra lateral com temática e botão da Stripe
 st.sidebar.markdown("### 🪐 Portal de Tripulante")
 st.sidebar.write("Desbloqueia energia ilimitada e ferramentas avançadas no cosmos.")
 st.sidebar.markdown("---")
 
-# Link oficial do Stripe configurado
 stripe_url = "https://buy.stripe.com/test_cNidR9epR307gqnETFdZ600"
 st.sidebar.link_button("⭐ Subscrever Missão (2€/mês)", stripe_url)
