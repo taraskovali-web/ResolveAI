@@ -8,7 +8,7 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-# 2. Estilização visual (Tema Cosmic / Dark Theme & Ajustes de Visibilidade do Chat)
+# 2. Estilização visual avançada para corresponder exatamente ao design desejado
 st.markdown("""
     <style>
     .stApp {
@@ -19,7 +19,21 @@ st.markdown("""
         background-color: #111827;
         border-right: 1px solid #1f2937;
     }
-    /* Estilização do input de chat para garantir visibilidade perfeita no tema escuro */
+    /* Estilo personalizado para os botões da barra lateral ficarem com o tom cósmico */
+    div.stButton > button {
+        background-color: #1a1b35 !important;
+        color: #d8b4fe !important;
+        border: 1px solid #4c1d95 !important;
+        border-radius: 8px !important;
+        font-weight: 500;
+        transition: all 0.3s ease;
+    }
+    div.stButton > button:hover {
+        background-color: #2e1065 !important;
+        border-color: #7c3aed !important;
+        color: #ffffff !important;
+    }
+    /* Correção de visibilidade e contraste para o input de chat */
     .stChatInput input {
         color: #ffffff !important;
         background-color: #1a2234 !important;
@@ -27,7 +41,7 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
-# 3. Gestão de Estado para a Frequência de Raciocínio Ativa
+# 3. Gestão de Estado
 if "frequencia_ativa" not in st.session_state:
     st.session_state.frequencia_ativa = "✨ Investigação Científica & IA"
 
@@ -49,7 +63,7 @@ with st.sidebar:
     if st.button("🌌 Exploração Cósmica", use_container_width=True):
         st.session_state.frequencia_ativa = "🌌 Exploração Cósmica"
         
-    st.markdown(f"<div style='background-color: #1f2937; padding: 8px; border-radius: 6px; font-size: 12px; margin-top: 10px; margin-bottom: 20px;'><b>Ativo:</b> {st.session_state.frequencia_ativa}</div>", unsafe_allow_html=True)
+    st.markdown(f"<div style='background-color: #1a1b35; border: 1px solid #4c1d95; padding: 10px; border-radius: 8px; font-size: 12px; margin-top: 12px; margin-bottom: 20px; color: #e9d5ff;'><b>Ativo:</b> {st.session_state.frequencia_ativa}</div>", unsafe_allow_html=True)
     
     st.markdown("---")
     
@@ -57,7 +71,7 @@ with st.sidebar:
     st.markdown("### **Portal de Tripulante**")
     st.markdown("<p style='font-size: 13px; color: #d8b4fe;'>Desbloqueia energia ilimitada para a tua missão.</p>", unsafe_allow_html=True)
     
-    # Botão de subscrição Stripe oficial
+    # Botão de subscrição Stripe oficial com o teu link
     st.link_button(
         "⭐ Subscrever Passe Estelar (2€/mês)", 
         "https://buy.stripe.com/cNidR9epr307gqneTFdZ600", 
@@ -75,14 +89,12 @@ for message in st.session_state.messages:
     with st.chat_message(message["role"]):
         st.markdown(message["content"])
 
-# Caixa de chat principal alinhada com o requisito visual
+# Caixa de chat principal
 if prompt := st.chat_input("Transmite a tua diretiva para o cosmos..."):
-    # Adicionar mensagem do utilizador
     st.session_state.messages.append({"role": "user", "content": prompt})
     with st.chat_message("user"):
         st.markdown(prompt)
 
-    # Resposta baseada no modo ativo
     resposta = f"[{st.session_state.frequencia_ativa}] A processar a diretiva: '{prompt}' através da rede neural estelar..."
     st.session_state.messages.append({"role": "assistant", "content": resposta})
     with st.chat_message("assistant"):
