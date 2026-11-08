@@ -8,7 +8,7 @@ st.set_page_config(
     layout="centered"
 )
 
-# Estilo visual limpo
+# Estilo visual personalizado com correção de visibilidade do chat
 st.markdown("""
     <style>
     .stApp {
@@ -22,6 +22,21 @@ st.markdown("""
         color: #38bdf8;
         font-family: 'Helvetica Neue', sans-serif;
         text-shadow: 0 0 20px rgba(56, 189, 248, 0.4);
+    }
+    
+    /* CORREÇÃO DEFINITIVA: Visibilidade do texto na caixa de chat */
+    .stChatInput div[data-baseweb="input"] {
+        background-color: #1e293b !important;
+    }
+    .stChatInput textarea {
+        color: #ffffff !important;
+        -webkit-text-fill-color: #ffffff !important;
+        background-color: transparent !important;
+        caret-color: #ffffff !important;
+    }
+    .stChatInput textarea::placeholder {
+        color: #94a3b8 !important;
+        -webkit-text-fill-color: #94a3b8 !important;
     }
     </style>
 """, unsafe_allow_html=True)
@@ -40,7 +55,7 @@ else:
 # Inicializar o cliente do Google GenAI
 client = genai.Client(api_key=api_key)
 
-# Caixa de texto padrão
+# Caixa de texto para o utilizador
 user_prompt = st.chat_input("Qual é a tua missão ou dúvida hoje? 🛸")
 
 if user_prompt:
@@ -50,7 +65,7 @@ if user_prompt:
     with st.chat_message("assistant", avatar="🤖"):
         with st.spinner("✨ A calcular trajetória cósmica..."):
             try:
-                # Usar gemini-2.5-flash que é extremamente rápido e estável
+                # Modelo rápido gemini-2.5-flash
                 response = client.models.generate_content(
                     model="gemini-2.5-flash",
                     contents=user_prompt,
